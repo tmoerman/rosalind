@@ -91,11 +91,11 @@
 (defn max-gc [fasta-maps-with-gc] 
     (apply max-key :gc fasta-maps-with-gc))
 
-(defn gc-result [] (pretty-gc (max-gc (assoc-gc-vals gc-pct (parse-fasta (lines "rosalind_gc.txt"))))))
+(defn gc-result [file] 
+  (with-open [rdr (reader (resource file))]
+    (pretty-gc (max-gc (assoc-gc-vals gc-pct (parse-fasta (line-seq rdr)))))))
 
-(gc-result)
-
-(println (gc-result))
+(gc-result2 "rosalind_gc.txt")
 
 
 
