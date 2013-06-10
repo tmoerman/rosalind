@@ -83,19 +83,17 @@
 (defn assoc-gc-vals [f fasta-maps] 
   (map (partial assoc-gc-val f) fasta-maps))
 
-;(def gc (lines "rosalind_gc.txt"))
-
-(defn pretty-gc [fasta-map] 
-  (format "%s\n%s" (:header fasta-map) (:gc fasta-map)))
-
 (defn max-gc [fasta-maps-with-gc] 
     (apply max-key :gc fasta-maps-with-gc))
 
 (defn gc-result [file] 
   (with-open [rdr (reader (resource file))]
-    (pretty-gc (max-gc (assoc-gc-vals gc-pct (parse-fasta (line-seq rdr)))))))
+    (max-gc (assoc-gc-vals gc-pct (parse-fasta (line-seq rdr))))))
 
-(gc-result2 "rosalind_gc.txt")
+(defn pretty-gc [fasta-map] 
+  (format "%s\n%s" (:header fasta-map) (:gc fasta-map)))
+
+(pretty-gc (gc-result "rosalind_gc.txt"))
 
 
 
