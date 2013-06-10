@@ -91,11 +91,11 @@
 (defn max-gc [fasta-maps-with-gc] 
     (apply max-key :gc fasta-maps-with-gc))
 
-(defn tetten [] (pretty-gc (max-gc (assoc-gc-vals gc-pct (parse-fasta (lines "rosalind_gc.txt"))))))
+(defn gc-result [] (pretty-gc (max-gc (assoc-gc-vals gc-pct (parse-fasta (lines "rosalind_gc.txt"))))))
 
-(tetten)
+(gc-result)
 
-(println (tetten))
+(println (gc-result))
 
 
 
