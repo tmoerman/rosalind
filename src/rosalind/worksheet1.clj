@@ -1,13 +1,37 @@
 (ns rosalind.worksheet1)
 (use 'clojure.java.io)
-(use '[clojure.string :only (join split)])
+(use '[clojure.string :only (join split trim)])
 
 ;;
 ;; utility methods
 ;;
 
+(defn map-vals
+  "apply the function f to the values of map m"
+  [f m]
+  (into {} (for [[k v] m] [k (f v)])))
+
 (defn lines [resource-file-name] (line-seq (reader (resource resource-file-name))))
 
+(defn is-fasta-header-line [line] (.startsWith line ">"))
+
+(def is-fasta-seq-line (complement is-fasta-header-line))
+
+(defn join-trimmed [strings] (join (map trim strings)))
+
+(defn parse-fasta
+  "parses a fasta file to a seq of maps {:header \">header\" :seq \"AAACTGCCA\"}" 
+  [lines]
+  (let [step (fn [c]
+               (when-let [s (seq c)]
+                 (println (first s))
+                 (cons {:header (apply str (drop 1 (first s))) 
+                        :seq    (join-trimmed (take-while is-fasta-seq-line (rest s)))} 
+                       (parse-fasta (drop-while is-fasta-seq-line (rest s))))))]
+    (lazy-seq (step lines))))
+
+
+(apply str (drop 1 ">adfdsf"))
 
 
 ;;
@@ -21,7 +45,6 @@
 (freqs dna)
 
 (println (freqs dna))
-
 
 
 
@@ -40,6 +63,43 @@
 (println (reverse-complement revc))
 
 
+
 ;;
-;; 
+;; http://rosalind.info/problems/gc/
 ;;
+
+(defn nucleotide-count [dna-string & nucleotides]
+  (let [freqs (frequencies dna-string)]
+    (reduce + (map freqs nucleotides))))
+
+(defn nucleotide-ratio [dna-string & nucleotides]
+  (/ (apply nucleotide-count dna-string nucleotides) (count dna-string)))
+
+(defn gc-ratio [dna-string] (nucleotide-ratio dna-string \C \G))
+
+(defn gc-pct [dna-string] (float (* 100 (gc-ratio dna-string))))
+
+(defn assoc-gc-val [f fasta-map] 
+  (assoc fasta-map :gc (f (:seq fasta-map)))) 
+
+(defn assoc-gc-vals [f fasta-maps] 
+  (map (partial assoc-gc-val f) fasta-maps))
+
+;(def gc (lines "rosalind_gc.txt"))
+
+(defn pretty-gc [fasta-map] 
+  (format "%s\n%s" (:header fasta-map) (:gc fasta-map)))
+
+(defn max-gc [fasta-maps-with-gc] 
+    (apply max-key :gc fasta-maps-with-gc))
+
+(defn tetten [] (pretty-gc (max-gc (assoc-gc-vals gc-pct (parse-fasta (lines "rosalind_gc.txt"))))))
+
+(tetten)
+
+(println (tetten))
+
+
+
+
+
