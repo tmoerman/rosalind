@@ -31,8 +31,6 @@
     (lazy-seq (step lines))))
 
 
-(apply str (drop 1 ">adfdsf"))
-
 
 ;;
 ;; http://rosalind.info/problems/dna/
