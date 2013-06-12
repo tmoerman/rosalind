@@ -20,16 +20,21 @@
 (defn join-trimmed [strings] (join (map trim strings)))
 
 (defn parse-fasta
-  "parses a fasta file to a seq of maps {:header \">header\" :seq \"AAACTGCCA\"}" 
+  "parses a fasta file to a seq of maps {:header \"header\" :seq \"AAACTGCCA\"}" 
   [lines]
   (let [step (fn [c]
                (when-let [s (seq c)]
-                 (println (first s))
-                 (cons {:header (apply str (drop 1 (first s))) 
-                        :seq    (join-trimmed (take-while is-fasta-seq-line (rest s)))} 
-                       (parse-fasta (drop-while is-fasta-seq-line (rest s))))))]
+                 (let [fasta-header-line (.substring (first s) 1)
+                       [fasta-seq-lines fasta-rest] (split-with is-fasta-seq-line (rest s))]
+                   (cons {:header fasta-header-line
+                          :seq    (join-trimmed fasta-seq-lines)} 
+                         (parse-fasta fasta-rest)))))]
     (lazy-seq (step lines))))
 
+
+(parse-fasta (lines "rosalind_gc.txt"))
+
+(take 2 (parse-fasta (lines "rosalind_gc.txt")))
 
 
 ;;
@@ -42,7 +47,7 @@
 
 (freqs dna)
 
-(println (freqs dna))
+; (println (freqs dna))
 
 
 
@@ -52,13 +57,17 @@
 
 (def revc (first (lines "rosalind_revc.txt")))
 
-(def dna-complement {\A \T \C \G \G \C \T \A})
+(def dna-complement 
+  {\A \T
+   \C \G
+   \G \C
+   \T \A})
 
 (defn reverse-complement [dna-string] (join (map dna-complement (reverse dna-string))))
 
 (reverse-complement revc)
 
-(println (reverse-complement revc))
+; (println (reverse-complement revc))
 
 
 
