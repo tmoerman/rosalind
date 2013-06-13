@@ -1,6 +1,5 @@
-(ns rosalind.core)
+(ns rosalind.core
+   (:gen-class))
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(defn -main [& args]
+  (prn "Project Rosalind in Clojure"))
