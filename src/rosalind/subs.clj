@@ -33,7 +33,6 @@
 ;; The different ideas of the algorithm are decomplected.
 
 (defn find-local-motif-indices
-  ""
   [s t]
   (loop [curr   s
          result nil]
@@ -57,5 +56,25 @@
 
 (defn find-motifs-2 [s t]
   (reverse (map inc (pile (reverse (find-local-motif-indices s t))))))
+
+;;
+;; Different approach with partitioning the string into a lazy seq of parts with length
+;; equal to the motif we want to find. Arguably more elegant because than previous solutions
+;; because it does not depend on the String#indexOf method.
+;;
+
+(defn find-motifs-3 [s t]
+  (reverse 
+    (map inc
+      (let [parts (partition (count t) 1 s)]
+        (loop [curr   parts
+               index  0
+               result nil]
+          (if (empty? curr)
+            result
+            (recur 
+              (rest curr) 
+              (inc index) 
+              (if (= (first curr) (seq t)) (cons index result) result))))))))
 
 (subs-result "rosalind_subs.txt")
