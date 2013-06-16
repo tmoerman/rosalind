@@ -13,8 +13,6 @@
 
 (def fasta-line? (complement fasta-comment-line?))
 
-; (defn join-trimmed [strings] (join (map trim strings)))
-
 (defn parse-fasta
   "parses a fasta file to a seq of maps {:id 'header' :seq ('AAACTGCCA' 'GGGCCCTTTAA')}"
   [lines]
