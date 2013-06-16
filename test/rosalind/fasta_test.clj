@@ -1,7 +1,6 @@
 (ns rosalind.fasta-test
-  (:use clojure.java.io)
-  (:require [clojure.test :refer :all])
-  (:require [rosalind.fasta :refer :all]))
+  (:use clojure.test)
+  (:use rosalind.fasta))
 
 (def test-data 
   '(">Rosalind_6404"
@@ -17,5 +16,9 @@
     "TGGGAACCTGCGGGCAGTAGGTGGAAT"))
 
 (deftest test-parse-fasta
+  
   (testing "yields a lazy seq"
-    (is (not (realized? (parse-fasta test-data))))))
+    (is (not (realized? (parse-fasta test-data)))))
+  
+  (testing "parses 3 fasta maps"
+    (is (= 3 (count (parse-fasta test-data))))))
