@@ -16,9 +16,7 @@
     "TGGGAACCTGCGGGCAGTAGGTGGAAT"))
 
 (deftest test-parse-fasta
-  
   (testing "yields a lazy seq"
     (is (not (realized? (parse-fasta test-data)))))
-  
   (testing "parses 3 fasta maps"
     (is (= 3 (count (parse-fasta test-data))))))

@@ -1,4 +1,4 @@
-(ns rosalind.graph
+(ns rosalind.grph
   (:use clojure.java.io)
   (:use rosalind.fasta)
   (:use [clojure.string :only [join]]))
@@ -32,14 +32,14 @@
 (defn render-just-ids [[m1 m2]] 
   (format "%s %s" (:id m1) (:id m2)))
 
-(defn render-pretty-labels [[m1 m2]] 
-  (format "%s -> %s;" (pretty m1) (pretty m2)))
-
 (defn pretty [m]
   (let [s     (apply str (:seq m))
         head  (apply str (prefix 3 s))
         tail  (apply str (suffix 3 s))]
     (format "%s_%s_%s" head (:id m) tail)))
+
+(defn render-pretty-labels [[m1 m2]] 
+  (format "%s -> %s;" (pretty m1) (pretty m2)))
 
 ;; write normal solution out to file
 
