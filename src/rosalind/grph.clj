@@ -41,7 +41,7 @@
         tail  (apply str (suffix 3 s))]
     (format "%s_%s_%s" head (:id m) tail)))
 
-;; write normal soution out to file
+;; write normal solution out to file
 
 (with-open [rdr (reader (resource "rosalind_grph.txt"))]
   (spit "resources/rosalind_grph_out.txt" 
