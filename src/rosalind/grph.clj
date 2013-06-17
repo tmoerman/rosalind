@@ -14,7 +14,7 @@
 
 (defn adjacent?
   [min-overlap s1 s2] 
-  (= (suffix k s1) (prefix k s2)))
+  (= (suffix min-overlap s1) (prefix min-overlap s2)))
 
 (defn adjacent-fasta-maps? [min-overlap m1 m2]
   (adjacent? min-overlap (apply str (:seq m1)) (apply str (:seq m2))))
