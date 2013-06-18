@@ -20,6 +20,11 @@
 
 (defn gc-result [file-name] 
   (with-open [rdr (reader (resource file-name))]
-    (pretty (find-max-gc (parse-fasta (line-seq rdr))))))
+    (->> rdr
+         (line-seq)
+         (parse-fasta)
+         (find-max-gc)
+         (pretty))))
+
 
 (gc-result "rosalind_gc.txt")
