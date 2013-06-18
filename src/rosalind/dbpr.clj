@@ -58,4 +58,4 @@
 ;; 3 - 2 - 1 - launch
 
 (spit "resources/rosalind_dbpr_out.txt"
-      (join "\n" (dbpr-result "Q824M5")))
+      (str/join "\n" (dbpr-result "Q824M5")))
