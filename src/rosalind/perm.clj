@@ -2,7 +2,6 @@
   (:use clojure.java.io)
   (:use [clojure.string :only (join)]))
 
-
 ;;
 ;; http://rosalind.info/problems/perm/
 ;;
