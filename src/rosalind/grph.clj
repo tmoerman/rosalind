@@ -10,7 +10,7 @@
 (def k 3)
 
 (defn prefix [k s] (take k s))
-(defn suffix [k s] (reverse (take k (reverse s))))
+(defn suffix [k s] (take-last k s))
 
 (defn adjacent?
   [min-overlap s1 s2] 
