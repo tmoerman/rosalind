@@ -1,6 +1,5 @@
 (ns rosalind.dbpr
   (:use clojure.data.zip.xml)
-  (:require [clj-http.client :as client])
   (:require [clojure.string :as str]
             [clojure.xml :as xml]
             [clojure.zip :as zip]))
@@ -47,8 +46,7 @@
 (defn dbpr-result [protein-id]
   (->> protein-id
        (uniprot-xml-url)
-       (client/get)
-       (:body)
+       (slurp)
        (parse-str-to-xml-zip)
        (extract-db-references)
        (filter only-protein-processes)
