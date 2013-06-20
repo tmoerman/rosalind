@@ -26,18 +26,16 @@
         rest-dna (filter (partial not= ref-dna) dna-strings)]
     
     (loop [length (count ref-dna)]
-      (print '.) ;; remove me
+
       (if-let [result (first (filter (partial contained-in-all? rest-dna) (partition-sliding length ref-dna)))]
         result
         (recur (dec length))))))
 
-(prn
-  (->> "rosalind_lcsm.txt"
-       (resource)
-       (reader)
-       (line-seq)
-       (parse-fasta)
-       (only-fasta-seqs-as-strings)
-       (find-shared-motif)))
-
-;(just-do-it)
+(->> "rosalind_lcsm.txt"
+     (resource)
+     (reader)
+     (line-seq)
+     (parse-fasta)
+     (only-fasta-seqs-as-strings)
+     (find-shared-motif)
+     (prn))
