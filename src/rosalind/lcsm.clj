@@ -21,6 +21,8 @@
 
 (defn contained-in-all? [all s] (every? #(.contains % s) all))
 
+;; slow iterative version
+
 (defn find-shared-motif [dna-strings]
   (let [ref-dna  (reduce shortest dna-strings)
         rest-dna (filter (partial not= ref-dna) dna-strings)]
@@ -31,11 +33,33 @@
         result
         (recur (dec length))))))
 
+;; faster binary search
+
+(defn binary-find-longest-common-substring-length [dna-strings]
+  (let [ref-dna  (reduce shortest dna-strings)
+        rest-dna (filter (partial not= ref-dna) dna-strings)]
+    
+    (loop [l 0
+           r (count ref-dna)]
+      (if (= (inc l) r)
+        l
+        (let [mid (int (/ (+ l r) 2))
+              go-bigger (some (partial contained-in-all? rest-dna) (partition-sliding mid ref-dna))
+              next-l (if go-bigger mid l)
+              next-r (if go-bigger r mid)]
+          (recur next-l next-r))))))
+
+(defn find-shared-motif-fast [dna-strings]
+  (let [length (binary-find-longest-common-substring-length dna-strings)]
+    (first (filter (partial contained-in-all? dna-strings) (partition-sliding length (first dna-strings))))))
+
+;; combinator
+
 (->> "rosalind_lcsm.txt"
      (resource)
      (reader)
      (line-seq)
      (parse-fasta)
      (only-fasta-seqs-as-strings)
-     (find-shared-motif)
+     (find-shared-motif-fast)
      (prn))
