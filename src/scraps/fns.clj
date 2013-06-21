@@ -8,7 +8,11 @@
 (defn square [x] (* x x))
 (defn double [x] (+ x x))
 
-(def fns [translate square double])
+;; (def fns [translate square double])
+
+(def fns (list translate square double))
+
+(map prn fns)
 
 ;; optie 1
 (map #(% 2) fns)
