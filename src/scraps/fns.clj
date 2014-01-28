@@ -12,10 +12,8 @@
 
 (def fns (list translate square double))
 
-(map prn fns)
-
-;; optie 1
+;; option 1
 (map #(% 2) fns)
 
-;; optie 2
+;; option 2
 ((apply juxt fns) 2)
