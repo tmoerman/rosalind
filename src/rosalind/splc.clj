@@ -1,28 +1,34 @@
 (ns rosalind.splc
   (:use clojure.java.io)
-  (:use [clojure.string :as str])
-  (:use rosalind.fasta))
+  (:require [rosalind.core]
+            [clojure.string :as str]
+            [rosalind.core :as ros]
+            [rosalind.fasta :as fas]))
 
-;;
-;; http://rosalind.info/problems/splc/
-;;
+(defn remove-introns
+  [dna introns]
+  (loop [curr-dna       dna
+         [intron & rest :as all] introns]
+    (if (empty? all)
+      curr-dna
+      (let [index         (.indexOf curr-dna intron)
+            intron-exists (not (= index -1))]
+          (recur
+            (if intron-exists
+              (str/replace curr-dna intron "")
+              curr-dna)
+            rest)))))
 
-(def input
-  [{:id  "dna-string"
-    :seq "ATGGTCTACATAGCTGACAAACAGCACGTAGCAATCGGTCGAATCTCGAGAGGCATATGGTCACATGATCGGTCGAGCGTGTTTCAAAGTTTGCGCCTAG"}
-   {:id  "intron 1"
-    :seq "ATCGGTCGAA"}
-   {:id  "intron 2"
-    :seq "ATCGGTCGAGCGTGT"}])
-
-(def dna-string (:seq (first input)))
-
-(def introns (map :seq (rest input)))
-
-(prn dna-string)
-(prn introns)
-
-(str/replace "otis redding" "red" "")
-
-(defn split-input-to-splice [fasta-lines]
-  (let [dna-string (first fasta-lines)]))
+(let [[dna & introns] (->> "rosalind_splc.txt"
+                        (resource)
+                        (reader)
+                        (line-seq)
+                        (fas/parse-fasta)
+                        (map :seq)
+                        (map (partial apply str)))]
+  (->>
+    (remove-introns dna introns)
+    (ros/transcribe)
+    (ros/translate)
+    (apply str) ; concatenate amino acids
+    (prn)))

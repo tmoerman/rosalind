@@ -1,7 +1,7 @@
 (ns rosalind.fasta
-  (:use [clojure.string :only (join trim replace-first)]))
+  (:require [clojure.string :as str]))
 
-;; 
+;;
 ;; fasta related functions
 ;;
 
@@ -18,9 +18,9 @@
   [lines]
   (let [step (fn [c]
                (when-let [s (seq c)]
-                 (let [fasta-id-line (replace-first (first s) ">" "")
+                 (let [fasta-id-line (str/replace-first (first s) ">" "")
                        [fasta-seq-lines fasta-rest] (split-with fasta-seq-line? (rest s))]
                    (cons {:id  fasta-id-line
-                          :seq fasta-seq-lines} 
+                          :seq fasta-seq-lines}
                          (parse-fasta fasta-rest)))))]
     (lazy-seq (step (filter fasta-line? lines)))))
