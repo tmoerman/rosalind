@@ -1,9 +1,14 @@
 (ns rosalind.prot
-  (:use rosalind.core)
-  (:use clojure.java.io))
+  (require [rosalind.core :as ros]
+           [clojure.java.io :as io]))
 
 ;;
 ;; http://rosalind.info/problems/prot/
 ;;
 
-(prn (apply str (translate (slurp (resource "rosalind_prot.txt")))))
+(->>
+  (io/resource "rosalind_prot.txt")
+  (slurp)
+  (ros/translate)
+  (apply str)
+  (prn))
