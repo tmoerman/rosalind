@@ -1,13 +1,12 @@
 (ns rosalind.splc
-  (:use clojure.java.io)
-  (:require [rosalind.core]
+  (:require [clojure.java.io :as io]
             [clojure.string :as str]
             [rosalind.core :as ros]
             [rosalind.fasta :as fas]))
 
 (let [[dna & introns] (->> "rosalind_splc.txt"
-                        (resource)
-                        (reader)
+                        (io/resource)
+                        (io/reader)
                         (line-seq)
                         (fas/parse-fasta)
                         (map :seq)

@@ -6,6 +6,9 @@
    \G \C
    \T \A})
 
+(defn complement [dna]
+  (map dna-complement dna))
+
 (def rna-transcription
   {\A \A
    \C \C
