@@ -26,6 +26,7 @@
 (defn revp [dna]
   (->>
      (range 4 13)
+     (filter even?)
      (mapcat (partial partition-indexed dna))
      (filter (comp reverse-palindrome? :dna))
      (map output-line)
