@@ -1,5 +1,9 @@
 (ns rosalind.fib)
 
+;;
+;; http://rosalind.info/problems/fib/
+;;
+
 (def n 30)
 (def k 3)
 
