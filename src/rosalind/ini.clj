@@ -1,15 +1,15 @@
 (ns rosalind.ini
-  (:use clojure.java.io)
-  (:use [clojure.string :only (join)]))
+  (require [clojure.java.io :as io]
+           [clojure.string :as str]))
 
 ;;
 ;; http://rosalind.info/problems/ini/
-;; 
+;;
 
-(def data (slurp (resource "rosalind_ini.txt")))
-
-(->> data
-     (frequencies)
-     (sort)
-     (vals)
-     (join " "))
+(->> "rosalind_ini.txt"
+  (io/resource)
+  (slurp)
+  (frequencies)
+  (sort)
+  (vals)
+  (join " "))
