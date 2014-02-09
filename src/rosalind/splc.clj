@@ -4,6 +4,10 @@
             [rosalind.core :as ros]
             [rosalind.fasta :as fas]))
 
+;;
+;; http://rosalind.info/problems/splc/
+;;
+
 (let [[dna & introns] (->> "rosalind_splc.txt"
                         (io/resource)
                         (io/reader)
