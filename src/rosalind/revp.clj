@@ -10,7 +10,7 @@
 ;;
 
 (defn reverse-palindrome? [string]
-  (= string (reverse (ros/complement string))))
+  (= string (reverse (ros/dna-complement string))))
 
 (defn triplet [index string]
   {:idx (+ 1 index)
@@ -35,14 +35,13 @@
 (def input-file "rosalind_revp.txt")
 (def output-file "resources/rosalind_revp_out.txt")
 
-(let [dna (->> input-file
-             (io/resource)
-             (io/reader)
-             (line-seq)
-             (fas/parse-fasta)
-             (first)
-             (:seq)
-             (apply str))]
-    (->> dna
-      (revp)
-      (spit output-file)))
+(->> input-file
+  (io/resource)
+  (io/reader)
+  (line-seq)
+  (fas/parse-fasta)
+  (first)
+  (:seq)
+  (apply str)
+  (revp)
+  (spit output-file))

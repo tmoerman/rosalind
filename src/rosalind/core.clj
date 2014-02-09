@@ -1,19 +1,25 @@
 (ns rosalind.core)
 
-(def dna-complement
+(def dna-complements
   {\A \T
    \C \G
    \G \C
    \T \A})
 
-(defn complement [dna]
-  (map dna-complement dna))
+(defn dna-complement [dna]
+  (map dna-complements dna))
+
+(defn reverse-complement [dna]
+  (reverse (dna-complement dna)))
 
 (def rna-transcription
   {\A \A
    \C \C
    \G \G
    \T \U})
+
+(def rna-start-codon 'AUG)
+(def rna-stop-codons ['UAA 'UAG 'UGA])
 
 (def rna-codon-table
   (apply hash-map '(
@@ -64,17 +70,30 @@
 
 ;; translate
 
-(defn partition-to-codons [rna]
-  (map (partial apply str) (partition 3 rna)))
+(defn to-codon-symbol [rna-seq]
+  (symbol (apply str rna-seq)))
 
-(defn lookup-in-rna-codon-table [codon]
-  (rna-codon-table (symbol codon)))
+(defn partition-to-codons [rna]
+  (partition 3 rna))
+
+;; LAZY translate until stop codon encountered
+
+(defn translate-raw [rna]
+  "Translate the specified RNA sequence to protein without taking into account 'Stop codons"
+  (->> rna
+    (partition-to-codons)
+    (map to-codon-symbol)
+    (map rna-codon-table)))
 
 (defn translate [rna]
   (->> rna
-       (partition-to-codons)
-       (map lookup-in-rna-codon-table)
-       (take-while (partial not= 'Stop))))
+    (translate-raw)
+    (trim-at-stop)))
+
+(defn contains-stop? [polypeptide]
+ (some (partial = 'Stop) polypeptide))
+
+(defn trim-at-stop [polypeptide]
+  (take-while (partial not= 'Stop) polypeptide))
 
 (translate (transcribe "AACCGGTT"))
-
