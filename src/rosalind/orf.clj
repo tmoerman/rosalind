@@ -9,8 +9,6 @@
 ;; http://rosalind.info/problems/orf/
 ;;
 
-(def dna "AGCCATGTAGCTAACTCAGGTTACATGGGGATGACCCCGCGACTTGGATTAGAGTCTCTTTTGGAATAAGCCTGAATGATCCGAGTAGCATCTCAG")
-
 (defn index-of [sub coll]
   (java.util.Collections/indexOfSubList coll sub))
 
@@ -30,7 +28,7 @@
     (ros/transcribe)
     (find-orf-origins)
     (map ros/translate-raw)
-    (filter ros/contains-stop?)
+    (filter ros/contains-stop?) ;; ORFs need a stop codon
     (map ros/trim-at-stop)
     (map str/join)))
 
