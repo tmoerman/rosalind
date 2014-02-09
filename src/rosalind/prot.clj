@@ -6,8 +6,8 @@
 ;; http://rosalind.info/problems/prot/
 ;;
 
-(->>
-  (io/resource "rosalind_prot.txt")
+(->> "rosalind_prot.txt"
+  (io/resource)
   (slurp)
   (ros/translate)
   (apply str)
