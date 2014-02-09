@@ -6,11 +6,10 @@
 
 (def freqs (frequencies (vals ros/rna-codon-table)))
 
-(def data-file "rosalind_mrna.txt")
-
-(->>
-  (str/trim (slurp (io/resource data-file)))
-  ;;"MA"
+(->> "rosalind_mrna.txt"
+  (io/resource)
+  (slurp)
+  (str/trim)
   (seq)
   (map str)
   (map symbol)
