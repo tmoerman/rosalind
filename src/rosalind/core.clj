@@ -1,13 +1,20 @@
 (ns rosalind.core)
 
-(def dna-complements
+(def base-complements
   {\A \T
    \C \G
    \G \C
    \T \A})
 
+(def base-types
+  {\A :purine
+   \G :purine
+   \C :pyrimidine
+   \T :pyrimidine
+   \U :pyrimidine})
+
 (defn dna-complement [dna]
-  (map dna-complements dna))
+  (map base-complements dna))
 
 (defn reverse-complement [dna]
   (reverse (dna-complement dna)))
@@ -85,15 +92,15 @@
     (map to-codon-symbol)
     (map rna-codon-table)))
 
-(defn translate [rna]
-  (->> rna
-    (translate-raw)
-    (trim-at-stop)))
-
 (defn contains-stop? [polypeptide]
  (some (partial = 'Stop) polypeptide))
 
 (defn trim-at-stop [polypeptide]
   (take-while (partial not= 'Stop) polypeptide))
+
+(defn translate [rna]
+  (->> rna
+    (translate-raw)
+    (trim-at-stop)))
 
 (translate (transcribe "AACCGGTT"))

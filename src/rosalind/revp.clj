@@ -10,7 +10,7 @@
 ;;
 
 (defn reverse-palindrome? [string]
-  (= string (reverse (ros/dna-complement string))))
+  (= string (ros/reverse-complement string)))
 
 (defn triplet [index string]
   {:idx (+ 1 index)
