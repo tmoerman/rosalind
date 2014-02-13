@@ -1,11 +1,11 @@
 (ns rosalind.lexf
   (require [clojure.string :as str]))
 
-(defn generate [s n]
+(defn enumerate [kmer n]
     (if (= 0 n)
       '(nil)
-      (for [e s
-            c (generate s (dec n))]
+      (for [e kmer
+            c (generate kmer (dec n))]
         (conj c e))))
 
 (def string "RKTUNELZ")
