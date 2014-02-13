@@ -10,11 +10,11 @@
   (if (empty? coll)
     '(nil) ;; remember List(Nil) from the Scala Coursera course
     (for [e  coll
-          :let [tail (filter (complement (partial = e)) coll)]
+          :let [tail (filter (partial not= e) coll)]
           c (permutate tail)]
       (cons e c))))
 
-(defn make-range [n] 
+(defn make-range [n]
   (range 1 (inc n)))
 
 (permutate (make-range 3))
