@@ -2,7 +2,7 @@
   (:use clojure.test)
   (:use rosalind.fasta))
 
-(def test-data 
+(def test-data
   '(">Rosalind_6404"
     "CCTGCGGAAGATCGGCACTAGAATAGCCAGAACCGTTTCTCTGAGGCTTCCGGCCTTCCC"
     "; comment here"
