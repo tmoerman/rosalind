@@ -6,7 +6,7 @@
     (if (= 0 n)
       '(nil)
       (for [e kmer
-            c (generate kmer (dec n))]
+            c (enumerate kmer (dec n))]
         (conj c e))))
 
 (def output-file "resources/rosalind_lexf_out.txt")

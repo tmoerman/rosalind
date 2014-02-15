@@ -25,7 +25,6 @@
   (line-seq)
   (fas/parse-fasta)
   (map :seq)
-  (map (partial apply str))
   (apply (partial map vector))
   (map tran-type)
   (frequencies)

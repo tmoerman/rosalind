@@ -42,6 +42,5 @@
   (fas/parse-fasta)
   (first)
   (:seq)
-  (apply str)
   (revp)
   (spit output-file))

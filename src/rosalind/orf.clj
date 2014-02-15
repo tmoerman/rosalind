@@ -47,7 +47,6 @@
   (fas/parse-fasta)
   (first)
   (:seq)
-  (apply str)
   (find-orfs)
   (map #(str % "\n"))
   (str/join)

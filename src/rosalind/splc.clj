@@ -13,8 +13,7 @@
                         (io/reader)
                         (line-seq)
                         (fas/parse-fasta)
-                        (map :seq)
-                        (map (partial apply str)))]
+                        (map :seq))]
   (->>
     (reduce #(str/replace %1 %2 "") dna introns) ;; develop intuition for when to use reduce
     (ros/transcribe)
