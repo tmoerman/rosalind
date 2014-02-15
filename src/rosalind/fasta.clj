@@ -21,6 +21,6 @@
                  (let [fasta-id-line (str/replace-first (first s) ">" "")
                        [fasta-seq-lines fasta-rest] (split-with fasta-seq-line? (rest s))]
                    (cons {:id  fasta-id-line
-                          :seq fasta-seq-lines}
+                          :seq (str/join fasta-seq-lines)}
                          (parse-fasta fasta-rest)))))]
     (lazy-seq (step (filter fasta-line? lines)))))
