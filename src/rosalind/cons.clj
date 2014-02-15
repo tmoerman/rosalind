@@ -3,6 +3,10 @@
            [rosalind.fasta :as fas]
            [clojure.java.io :as io]))
 
+;;
+;; http://rosalind.info/problems/cons/
+;;
+
 (def nucleotides "ACGT")
 
 (defn profile-matrix [columns]

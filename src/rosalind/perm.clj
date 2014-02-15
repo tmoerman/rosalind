@@ -1,5 +1,4 @@
 (ns rosalind.perm
-  (:use clojure.java.io)
   (:use [clojure.string :only (join)]))
 
 ;;
