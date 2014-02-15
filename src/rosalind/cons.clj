@@ -14,11 +14,7 @@
             (count)) }))
 
 (defn max-col [column]
-  (reduce
-    (fn
-      [p1 p2]
-      (if (> (:cnt p1) (:cnt p2)) p1 p2))
-    column))
+  (reduce (partial max-key :cnt) column))
 
 (->> "rosalind_cons.txt"
   (io/resource)
@@ -26,7 +22,6 @@
   (line-seq)
   (fas/parse-fasta)
   (map :seq)
-  (map (partial apply str))
   (apply (partial map vector))
   (profile-matrix)
   (partition 4)
