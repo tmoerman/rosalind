@@ -1,0 +1,14 @@
+> bla
+ATCCAGCT
+> bla
+GGGCAACT
+> bla
+ATGGATCT
+> bla
+AAGCAACC
+> bla
+TTGGAACT
+> bla
+ATGCCATT
+> bla
+ATGGCACT
