@@ -1,5 +1,4 @@
-(ns rosalind.pper
-  (require [clojure.math.combinatorics :as combo]))
+(ns rosalind.pper)
 
 ;;
 ;; http://rosalind.info/problems/pper/
@@ -27,7 +26,5 @@
 (defn pper [n r]
   (/ (fac (bigint n))
      (fac (bigint (- n r)))))
-
-(pper 21 7)
 
 (mod (pper 100 9) 1000000)
