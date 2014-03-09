@@ -67,13 +67,12 @@
      (math/pow 1/4 n)
      (C cnt n)))
 
-(defn solve [gen min]
-  (let [cnt (math/pow 2 gen)]
-    (->>
-      (range min)
-      (map (partial prob cnt))
-      (reduce +)
-      (- 1))))
+(defn solve [k N]
+  (->>
+   (range N)
+   (map (partial prob (math/pow 2 k)))
+   (reduce +)
+   (- 1)))
 
 (solve 2 1)
 
