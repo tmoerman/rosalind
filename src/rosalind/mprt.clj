@@ -4,11 +4,15 @@
             [org.httpkit.client :as http]
             [rosalind.fasta :as fasta]))
 
-;; input
+;;
+;; http://rosalind.info/problems/mprt/
+;;
+
+;; slurp input
 
 (def ids (str/split (slurp "resources/rosalind_mprt.txt") #"\n"))
 
-;; http requests
+;; async http requests
 
 (defn fasta-url [id] (str "http://www.uniprot.org/uniprot/" id ".fasta"))
 
@@ -29,8 +33,8 @@
 (defn fasta-seq [body]
   (->> (str/split body #"\n")
        (fasta/parse-fasta)
-       (first)
-       :seq))
+       (map :seq)
+       (first)))
 
 ;; locating motif positions
 
@@ -50,20 +54,32 @@
 
 ;; launch solution
 
-(defn get-all-async [ids]
-  (go (->> ids
-           (map fasta-url)
-           (map request)
-           (async/map vector)
-           <!)))
+(defn request-and-process [id]
+  (go
+    (let [pos (->> id
+                   (fasta-url)
+                   (request)
+                   <!
+                   (fasta-seq)
+                   (positions))]
+      [id pos])))
 
-(->>
-  (get-all-async ids)
-  <!!
-  (map fasta-seq)
-  (map positions)
-  (map vector ids)
-  (filter #((complement str/blank?) (% 1)))
-  (flatten)
-  (str/join "\n")
-  (spit "resources/rosalind_mprt_out.txt"))
+(defn request-and-process-all [ids]
+  (go (->> ids
+           (map request-and-process)
+           (async/map vector)
+           <!
+           (filter (fn [[_ positions]] (not (str/blank? positions)))))))
+
+(<!! (request-and-process-all ids))
+
+(defn output-format [tuples]
+  (->> tuples
+       (flatten)
+       (str/join \newline)))
+
+(->> ids
+     (request-and-process-all)
+     <!!
+     (output-format)
+     (spit "resources/rosalind_mprt_out.txt"))
