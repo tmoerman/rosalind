@@ -52,7 +52,7 @@
       (re-pos motif)
       (str/join " ")))
 
-;; launch solution
+;; request and process logic
 
 (defn request-and-process [id]
   (go
@@ -71,15 +71,17 @@
            <!
            (filter (fn [[_ positions]] (not (str/blank? positions)))))))
 
-(<!! (request-and-process-all ids))
-
 (defn output-format [tuples]
   (->> tuples
        (flatten)
        (str/join \newline)))
+
+;; launch solution
 
 (->> ids
      (request-and-process-all)
      <!!
      (output-format)
      (spit "resources/rosalind_mprt_out.txt"))
+
+(<!! (request-and-process-all ids))
