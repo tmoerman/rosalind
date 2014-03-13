@@ -27,11 +27,10 @@
 ;; parse fasta
 
 (defn fasta-seq [body]
-  (->>
-    (str/split body #"\n")
-    (fasta/parse-fasta)
-    (first)
-    :seq))
+  (->> (str/split body #"\n")
+       (fasta/parse-fasta)
+       (first)
+       :seq))
 
 ;; locating motif positions
 
