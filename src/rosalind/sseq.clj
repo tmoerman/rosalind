@@ -50,15 +50,13 @@
      acc      []]
     (if (nil? x)
       acc
-      (let [i (.indexOf curr-dna (str x))]
-        (let [rest-dna (subs curr-dna (inc i))
-              next-carrier (+ carrier (inc i))]
+      (let [i (.indexOf curr-dna (str x))
+            rest-dna (subs curr-dna (inc i))
+            next-carrier (+ carrier (inc i))]
           (recur rest-dna
                  xs
                  next-carrier
-                 (conj acc next-carrier)))))))
-
-(solve "ACGTACGTGACG" "GTA")
+                 (conj acc next-carrier))))))
 
 (let [[dna sub] (->> "rosalind_sseq.txt"
                        (io/resource)
