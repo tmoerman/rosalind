@@ -7,10 +7,12 @@
                  [org.clojure/core.async "0.1.338.0-5c5012-alpha"]
                  [http-kit "2.1.16"]
                  [incanter "1.5.5"]
+                 [aysylu/loom "0.5.0"]
                  [prismatic/plumbing "0.3.5"]
                  [com.taoensso/timbre "3.3.1"]
                  [org.clojure/data.zip "0.1.1"]
                  [org.clojure/math.combinatorics "0.0.7"]
+                 [org.clojure/math.numeric-tower "0.0.4"]
                  [org.clojure/core.match "0.2.1"]
                  [org.clojure/clojure-contrib "1.2.0"]]
   :profiles {:dev {:dependencies [[midje "1.5.1"]]}})
