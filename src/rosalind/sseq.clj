@@ -59,10 +59,10 @@
                  (conj acc next-carrier))))))
 
 (let [[dna sub] (->> "rosalind_sseq.txt"
-                       (io/resource)
-                       (io/reader)
-                       (line-seq)
-                       (fas/parse-fasta)
-                       (map :seq))]
+                     (io/resource)
+                     (io/reader)
+                     (line-seq)
+                     (fas/parse-fasta)
+                     (map :seq))]
   (->> (solve dna sub)
        (str/join " ")))
