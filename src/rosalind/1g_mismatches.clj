@@ -13,8 +13,9 @@
 (defn nr-mistakes
   [a b]
   (->> (map vector a b)
-       (filter (fn [[a b]] (not= a b)))
-       count))
+       (pb/count-when (fn [[a b]] (not= a b)))))
+
+(nr-mistakes "AAA" "ABC")
 
 (def bases [\A \C \G \T])
 
@@ -23,16 +24,34 @@
   (->> (interleave ks vs)
        (apply assoc v)))
 
+(defn assoc-all-2
+  [v ks vs]
+  (loop [result v
+         [i & is] ks
+         [b & bs] vs]
+    (if (nil? i)
+      result
+      (recur (assoc result i b) is ks))))
+
+(time
+ (-> (apply vector "AAAAAAAA")
+     (assoc-all [0 1 2] [\B \B \B])))
+
+(time
+ (-> (apply vector "AAAAAAAA")
+     (assoc-all-2 [0 1 2] [\B \B \B])))
+
+
 (defn mismatch-range
-  [kmer d]
-  (let [index-tuples (-> (range 0 (count kmer))
+  [kmer k d]
+  (let [index-tuples (-> (range 0 k)
                          (combo/combinations d))
         replacement-tuples (-> (range 0 4)
                                (combo/selections d))
         mismatches (for [i-tuple index-tuples
                          r-tuple replacement-tuples :let [b-tuple (map bases r-tuple)]]
                      (assoc-all kmer i-tuple b-tuple))]
-    (into #{} mismatches)))
+    mismatches))
 
 (defn count-matches
   [kmer k d kmers]
@@ -46,18 +65,20 @@
 
         kmers-unique (into #{} kmers)
 
-        search-space (->> kmers-unique
-                          (mapcat #(mismatch-range % d))
-                          (into #{}))
+        search-space (time (->> kmers-unique
+                                (mapcat #(mismatch-range % k d))
+                                (into #{})))
 
-        score-graph (->> search-space
-                         (map (fn [kmer] [kmer (count-matches kmer k d kmers)])))
+        score-graph (time (->> search-space
+                               (map (fn [kmer] [kmer (count-matches kmer k d kmers)])))) ;; redundancy ???
 
-        max-score (transduce (map second) max 0 score-graph)
+        max-score (time (transduce (map second) max 0 score-graph))
 
-        result (->> score-graph
-                    (filter (fn [[_ score]] (= score max-score)))
-                    (map first))]
+        _ (println "score-graph size " (count score-graph))
+
+        result (time (->> score-graph
+                          (filter (fn [tuple] (= (second tuple) max-score)))
+                          (map first)))]
     result))
 
 (defn execute []
@@ -69,14 +90,5 @@
                    (map str->int))]
     (->> (solve k d text)
          (map str/join)
-         (str/join " "))))
-
-;(time (execute))
-
-;; test
-
-(mismatch-range (apply vector "AAAA") 2)
-
-(->> (solve 4 1 "AAATAAATCCCG")
-     (map str/join)
-     (str/join " "))
+         (str/join " ")
+         (spit "resources/rosalind_1g_out.txt"))))
