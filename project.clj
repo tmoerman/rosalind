@@ -5,9 +5,11 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.7.0-alpha4"]
                  [org.clojure/core.async "0.1.338.0-5c5012-alpha"]
+                 [org.clojure/tools.trace "0.7.8"]
                  [http-kit "2.1.16"]
                  [incanter "1.5.5"]
                  [aysylu/loom "0.5.0"]
+                 [clj-biosequence "0.1.4-SNAPSHOT"]
                  [prismatic/plumbing "0.3.5"]
                  [com.taoensso/timbre "3.3.1"]
                  [org.clojure/data.zip "0.1.1"]
