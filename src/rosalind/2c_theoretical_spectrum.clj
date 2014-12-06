@@ -31,13 +31,13 @@
   (->> (range 0 (-> polypeptide count inc))
        (mapcat (fn [k] (fragments k polypeptide)))))
 
-(defn mass [mass-table fragment]
-  (transduce (map mass-table) + fragment))
+(defn mass [fragment]
+  (transduce (map integer-mass-table) + fragment))
 
 (defn solve [polypeptide]
   (->> polypeptide
        all-fragments
-       (map (partial mass integer-mass-table))
+       (map mass)
        sort))
 
 (defn execute []
