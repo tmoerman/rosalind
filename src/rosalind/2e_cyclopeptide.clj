@@ -15,7 +15,8 @@
        mass
        (contains? spectrum)))
 
-(def parent-mass (memoize (fn [spectrum] (reduce max spectrum))))
+(defn parent-mass [spectrum] (reduce max spectrum))
+(def parent-mass-memo (memoize parent-mass))
 
 (defn cyclospectrum
   [polypeptide]
@@ -25,7 +26,7 @@
 
 (defn matches
   [spectrum polypeptide]
-  (and (= (parent-mass spectrum) (mass polypeptide))
+  (and (= (parent-mass-memo spectrum) (mass polypeptide))
        (= spectrum (cyclospectrum polypeptide))))
 
 (defn solve
@@ -39,30 +40,25 @@
                        (mapcat step))))]
       (step [])))
 
-(defn parse-spectrum
-  [line]
-  (->> (str/split line #" ")
-       (map str->int)
-       (into #{})))
+(defn str->int [s] (Integer/parseInt s))
 
 (defn read-spectrum []
-  (-> "rosalind_2e.txt"
-      io/resource
-      io/reader
-      line-seq
-      first
-      parse-spectrum))
-
-(defn format-masses
-  [polypeptide]
-  (->> polypeptide
-       (map integer-mass-table)
-       (str/join "-")))
+  (->> (-> "rosalind_2e.txt"
+           io/resource
+           io/reader
+           line-seq
+           first
+           (str/split #" "))
+       (map str->int)
+       (into #{})))
 
 (defn stringify
   [cyclopeptides]
   (->> cyclopeptides
-       (map format-masses)
+       (map (fn [cyclopeptide]
+              (->> cyclopeptide
+                   (map integer-mass-table)
+                   (str/join "-"))))
        (into #{})
        (str/join " ")))
 
@@ -72,7 +68,7 @@
        stringify
        (spit "resources/rosalind_2e_out.txt")))
 
-; (time (execute))
+(time (execute))
 
 ;; examples
 
