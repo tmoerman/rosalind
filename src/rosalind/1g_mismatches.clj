@@ -1,14 +1,12 @@
 (ns rosalind.1g-mismatches
   "Frequent Words with Mismatches Problem
    http://rosalind.info/problems/1g/"
-  (:require [rosalind.core :as ros]
+  (:require [rosalind.core :refer [str->int] :as ros]
             [clojure.java.io :as io]
             [clojure.string :as str]
             [clojure.set :as sets]
             [clojure.math.combinatorics :as combo]
             [plumbing.core :as pb]))
-
-(defn str->int [s] (Integer/parseInt s))
 
 (defn nr-mistakes
   [a b]

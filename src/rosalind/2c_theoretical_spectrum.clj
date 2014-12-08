@@ -51,4 +51,4 @@
        (str/join " ")
        (spit "resources/rosalind_2c_out.txt")))
 
-(execute)
+; (execute)

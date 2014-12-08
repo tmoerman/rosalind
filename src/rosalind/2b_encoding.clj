@@ -30,4 +30,4 @@
          (str/join " ")
          (spit "resources/rosalind_2b_out.txt"))))
 
-; (time (execute))
+;(time (execute))

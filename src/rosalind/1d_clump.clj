@@ -1,10 +1,9 @@
 (ns rosalind.1d-clump
   "Clump finding problem
    http://rosalind.info/problems/1d/"
-  (:require [clojure.java.io :as io]
+  (:require [rosalind.core :refer [str->int]]
+            [clojure.java.io :as io]
             [clojure.string :as str]))
-
-(defn str->int [s] (Integer/parseInt s))
 
 (defn solve
   [k L t genome]
@@ -30,4 +29,4 @@
          (str/join " ")
          (spit "resources/rosalind_1d_out.txt"))))
 
-; (time (execute))
+;(time (execute))

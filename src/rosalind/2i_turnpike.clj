@@ -1,7 +1,8 @@
 (ns rosalind.2i-turnpike
   "Partial digest a.k.a. Turnpike problem.
    http://rosalind.info/problems/2i/"
-  (:require [clojure.java.io :as io]
+  (:require [rosalind.core :refer [str->int]]
+            [clojure.java.io :as io]
             [clojure.string :as str]
             [clojure.math.numeric-tower :refer [abs] :as math]))
 
@@ -36,8 +37,6 @@
                                           (if (contains-all? L' d)
                                             (step (minus-all L' d) (conj X x))))))))))]
       (step (minus L width) [0 width]))))
-
-(defn str->int [s] (Integer/parseInt s))
 
 (defn solve []
   (->> (-> "rosalind_2i.txt"

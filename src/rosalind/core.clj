@@ -1,5 +1,7 @@
 (ns rosalind.core)
 
+(def bases '(\A \T \G \C))
+
 (def base-complements
   {\A \T
    \C \G
@@ -104,3 +106,6 @@
     (trim-at-stop)))
 
 (translate (transcribe "AACCGGTT"))
+
+(defn str->int [s] (Integer/parseInt s))
+

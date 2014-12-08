@@ -1,14 +1,12 @@
 (ns rosalind.1g-mismatches-2
   "Frequent Words with Mismatches Problem
    http://rosalind.info/problems/1g/"
-  (:require [rosalind.core :as ros]
+  (:require [rosalind.core :refer [str->int] :as ros]
             [clojure.java.io :as io]
             [clojure.string :as str]
             [clojure.set :as sets]
             [clojure.math.combinatorics :as combo]
             [plumbing.core :as pb]))
-
-(defn str->int [s] (Integer/parseInt s))
 
 (def others {\A [\C \G \T]
              \C [\A \G \T]
@@ -76,4 +74,4 @@
          (str/join " ")
          (spit "resources/rosalind_1g_2_out.txt"))))
 
-(time (execute))
+;(time (execute))
