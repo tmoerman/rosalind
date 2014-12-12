@@ -63,5 +63,5 @@
          format-masses
          (spit "resources/rosalind_2f_out.txt"))))
 
-(time (execute))
+; (time (execute))
 
