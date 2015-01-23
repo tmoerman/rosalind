@@ -1,6 +1,6 @@
 (ns rosalind.dna
-  (require [clojure.java.io :as io]
-           [clojure.string :as str]))
+  (:require [clojure.java.io :as io]
+            [clojure.string :as str]))
 
 ;;
 ;; http://rosalind.info/problems/dna/
