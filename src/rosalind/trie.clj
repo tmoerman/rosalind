@@ -50,7 +50,7 @@
 
 (defn trie-result [data] (->> data integrate-all gather-edges format-output))
 
-(->> "rosalind_trie.txt"
+#_(->> "rosalind_trie.txt"
      io/resource
      io/reader
      line-seq
